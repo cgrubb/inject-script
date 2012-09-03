@@ -27,7 +27,11 @@ class IndexHandler(tornado.web.RequestHandler):
                 <script type='text/javascript' src='static/lib/OpenLayers.js'></script>
                 <script type='text/javascript' src='static/lib/jquery-1.8.0-min.js'></script>
                 <script type='text/javascript' src='static/lib/js/jquery-ui-1.8.23.custom.min.js'></script>
+                <script type='text/javascript' src='static/scripts/model.js'></script>
+                <script type='text/javascript' src='static/scripts/view.js'></script>
+                <script type='text/javascript' src='static/scripts/controller.js'></script>
                 <script type='text/javascript' src='init.js'></script>
+                
             </head>
             <body>
                 <div id="main" style="height:100%;width:100%"></div>
@@ -47,20 +51,12 @@ class InitScriptHandler(tornado.web.RequestHandler):
         global _count
         _count += 1
         self.write("""
-            var index = {};
-            $(document).ready(function() {
-                index.settings_socket = new WebSocket('ws://%s/settings');
-                index.key = '%s';                
-                index.settings_socket.onopen = function() {
-                    index.settings_socket.send(JSON.stringify({"event":"open",
-                    "key":index.key}));
-                };
-                index.settings_socket.onmessage = function(message) {
-                    eval(message.data);
-                }
-            });
-        """ % (self.request.host, _count))
-        
+                    var index = {};
+                    $(document).ready(function() {
+                        index.model = new $.Model('ws://%s/settings','%s');
+                        index.controller = new $.Controller(index.model, null);
+                    });
+                   """ % (self.request.host, _count))
 
 if __name__ == "__main__":
     settings = {"static_path":os.path.join(os.path.dirname(__file__),"static")}
