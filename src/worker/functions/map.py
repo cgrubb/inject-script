@@ -9,11 +9,13 @@ def gen_map(*args, **kwargs):
         $("#main").empty();
         $("#main").append($('<div id="map" />'));
         $("#map").css({
-            'float':'right',
-            'height':'100%',
-            'width':'70%'
+            'position':'absolute',
+            'top':'50',
+            'right':'0',
+            'width':'70%',
+            'height':'100%'            
         });
-        $("#map").resizable();
+        //$("#map").resizable();
         index.map = {};
         index.map.olmap = new OpenLayers.Map({
             div: "map",

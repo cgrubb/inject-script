@@ -10,6 +10,7 @@ import tornado.web
 
 from settings_socket import SettingSocket, SettingListener
 
+
 _count = 0
 
 class IndexHandler(tornado.web.RequestHandler):
@@ -24,6 +25,7 @@ class IndexHandler(tornado.web.RequestHandler):
                 <title>Test Index</title>
                 <link rel='stylesheet' href='static/lib/theme/default/style.css' />
                 <link rel='stylesheet' href='static/lib/css/ui-lightness/jquery-ui-1.8.23.custom.css' />
+                <script type="text/javascript" src="https://www.google.com/jsapi"></script>
                 <script type='text/javascript' src='static/lib/OpenLayers.js'></script>
                 <script type='text/javascript' src='static/lib/jquery-1.8.0-min.js'></script>
                 <script type='text/javascript' src='static/lib/js/jquery-ui-1.8.23.custom.min.js'></script>
@@ -31,7 +33,9 @@ class IndexHandler(tornado.web.RequestHandler):
                 <script type='text/javascript' src='static/scripts/view.js'></script>
                 <script type='text/javascript' src='static/scripts/controller.js'></script>
                 <script type='text/javascript' src='init.js'></script>
-                
+                <script type='text/javascript'>
+                    google.load('earth','1.x');
+                </script>
             </head>
             <body>
                 <div id="main" style="height:100%;width:100%"></div>
@@ -48,22 +52,28 @@ class InitScriptHandler(tornado.web.RequestHandler):
         '''
         #TODO: Use global counter for testing
         #Eventually this will be replaced with a hash for each user
+        socket_url = 'ws://{}/settings'.format(self.request.host)
+        
+        backup = "ws://192.168.10.104:8888/settings"
+        sockets = "['{}']".format(socket_url)
         global _count
         _count += 1
         self.write("""
                     var index = {};
                     $(document).ready(function() {
-                        index.model = new $.Model('ws://%s/settings','%s');
-                        index.controller = new $.Controller(index.model, null);
+                        index.model = new $.Model(%s,'%s');
+                        index.view = new $.View();
+                        index.controller = new $.Controller(index.model,index.view);
+                        document.title = 'Client %s';
                     });
-                   """ % (self.request.host, _count))
+                   """ % (sockets,_count, _count))
 
 if __name__ == "__main__":
     settings = {"static_path":os.path.join(os.path.dirname(__file__),"static")}
     app = tornado.web.Application([(r"/",IndexHandler),
                                    (r"/init.js",InitScriptHandler),
                                    (r"/settings",SettingSocket)],
-                                  [dict(path=settings['static_path'])],
+                                   [dict(path=settings['static_path'])],
                                   **settings)
     app.listen(8888)
     listener = SettingListener()

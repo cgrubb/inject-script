@@ -1,9 +1,11 @@
 jQuery.extend({
-	Controller: function (model, view) {
+	Controller: function (model, view) {		
+		var controller  = this;
+		
 		//Set up a model listener
 		var mlistener = $.ModelListener({
 			update: function(message) {
-				eval(message);
+				view.exec(message);
 			}
 		});
 		model.addListener(mlistener);

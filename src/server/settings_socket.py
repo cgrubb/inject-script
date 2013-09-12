@@ -50,10 +50,14 @@ class SettingListener():
     def handle_msg(self, message):
         key = message[0]
         output = unicode(message[1])
-        try:
-            outsock = socket_dict[key]
-            outsock.write_message(output)
-        except KeyError:
-            print "Socket not found: {}".format(key)
-        
+        if key == "*":
+            for socket_key in socket_dict:
+                socket_dict[socket_key].write_message(output)
+        else:            
+            try:
+                outsock = socket_dict[key]
+                outsock.write_message(output)
+            except KeyError:
+                print "Socket not found: {}".format(key)
+            
         

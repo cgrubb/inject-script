@@ -9,9 +9,11 @@ def gen_display(*args, **kwargs):
         $("#main").append($('<div id="display" />').attr('class', 'ui-widget-content'));
         $("#display").resizable();
         $("#display").css({
-            'margin-right':'60px',
+            'position':'absolute',
+            'top':'10%',
+            'left':'0px',
             'width':'30%',
-            'height':'100%',
-            'background-color':'green'
+            'height':'90%',
+            'background-color':'lightgray'
 });      
     """

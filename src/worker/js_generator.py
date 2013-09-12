@@ -11,10 +11,16 @@ ioloop.install()
 from functions.display import gen_display
 from functions.map import gen_map
 from functions.call import plot_call
+from functions.tools import gen_toolbar, gen_button
+from functions.earth import gen_earth, plot_earth
 
 fxn_map = {"map":gen_map,
            "plot_call":plot_call,
-           "display":gen_display
+           "display":gen_display,
+           "toolbar":gen_toolbar,
+           "button":gen_button,
+           "earth":gen_earth,
+           "plot_earth":plot_earth           
            }
 
 class Generator():
