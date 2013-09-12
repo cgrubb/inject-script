@@ -21,3 +21,6 @@ The web socket server is implemented in server/settings_socket.py.  The socket s
 
 The Javascript generator is worker/js_generator.py.  The generator listens for messages that direct the component to be generated and the client key to send the updated component to.
 
+The driver for this example is just a simple command-prompt script that allows manual entry of messages. Basically the messages follow this format:
+
+{"type":message_type, "key":client_key, "param1":first_parameter, "param2":second_parameter}
