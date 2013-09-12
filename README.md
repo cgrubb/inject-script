@@ -10,8 +10,11 @@ The basic idea was to create a basic framework for handling messages, and then b
 In theory, this allows for live code updates with no need to reload any pages.
 
 There are three parts to the system:
+
 1. A web socket server.
+
 2. A Javascript generator
+
 3. A driver for initiating Javascript updates.
 
 The web socket server is implemented in server/settings_socket.py.  The socket server listens for web socket connections and registers clients.  Currently client keys are assigned as sequential numbers.
