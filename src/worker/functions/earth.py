@@ -6,7 +6,7 @@ Created on Sep 15, 2012
 
 def gen_earth(*args, **kwargs):
     return """
-        
+
         $("#main").empty();
         $("#main").append($('<div id="ge" />'));
         index.earth = {};
@@ -17,20 +17,22 @@ def gen_earth(*args, **kwargs):
             var options = ge.getOptions();
             options.setStatusBarVisibility(true);
             options.setScaleLegendVisibility(true);
-            options.setOverviewMapVisibility(true); 
-            index.earth.instance = ge;           
+            options.setOverviewMapVisibility(true);
+            index.earth.instance = ge;
         },
         function(errorCode) {
             alert(errorCode);
         });
     """
-    
+
 def plot_earth(*args, **kwargs):
     x = kwargs["x"]
-    y = kwargs["y"]    
+    y = kwargs["y"]
     return """
     if (index.earth !== null) {
-        var lookat = index.earth.instance.getView().copyAsLookAt(index.earth.instance.ALTITUDE_RELATIVE_TO_GROUND);
+        var lookat =
+            index.earth.instance.getView().copyAsLookAt(
+                index.earth.instance.ALTITUDE_RELATIVE_TO_GROUND);
         lookat.setTilt(30);
         lookat.setLatitude(%s);
         lookat.setLongitude(%s);

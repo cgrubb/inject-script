@@ -14,10 +14,10 @@ from settings_socket import SettingSocket, SettingListener
 _count = 0
 
 class IndexHandler(tornado.web.RequestHandler):
-    
+
     def get(self):
         '''
-        Build the skeleton 
+        Build the skeleton
         Include the jquery and settings references
         '''
         self.write("""<html>
@@ -25,6 +25,8 @@ class IndexHandler(tornado.web.RequestHandler):
                 <title>Test Index</title>
                 <link rel='stylesheet' href='static/lib/theme/default/style.css' />
                 <link rel='stylesheet' href='static/lib/css/ui-lightness/jquery-ui-1.8.23.custom.css' />
+                <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+                <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
                 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
                 <script type='text/javascript' src='static/lib/OpenLayers.js'></script>
                 <script type='text/javascript' src='static/lib/jquery-1.8.0-min.js'></script>
@@ -43,7 +45,7 @@ class IndexHandler(tornado.web.RequestHandler):
         </html>""")
 
 class InitScriptHandler(tornado.web.RequestHandler):
-    
+
     def get(self):
         '''
         Initialize the page and open the settings socket.
@@ -53,7 +55,7 @@ class InitScriptHandler(tornado.web.RequestHandler):
         #TODO: Use global counter for testing
         #Eventually this will be replaced with a hash for each user
         socket_url = 'ws://{}/settings'.format(self.request.host)
-        
+
         backup = "ws://192.168.10.104:8888/settings"
         sockets = "['{}']".format(socket_url)
         global _count

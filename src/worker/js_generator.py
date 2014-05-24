@@ -13,6 +13,7 @@ from functions.map import gen_map
 from functions.call import plot_call
 from functions.tools import gen_toolbar, gen_button
 from functions.earth import gen_earth, plot_earth
+from functions.leaflet import gen_leaflet, gen_leaflet_marker
 
 fxn_map = {"map":gen_map,
            "plot_call":plot_call,
@@ -20,14 +21,16 @@ fxn_map = {"map":gen_map,
            "toolbar":gen_toolbar,
            "button":gen_button,
            "earth":gen_earth,
-           "plot_earth":plot_earth           
+           "plot_earth":plot_earth,
+           "leaflet":gen_leaflet,
+           "leaflet_marker":gen_leaflet_marker
            }
 
 class Generator():
     '''
     Generate javascript objects on demand
     '''
-    
+
     def __init__(self):
         '''
         Constructor
@@ -40,7 +43,7 @@ class Generator():
         self.loop = ioloop.IOLoop.instance()
         self.stream = zmqstream.ZMQStream(self.pull)
         self.stream.on_recv(self.handle_msg)
-        
+
     def handle_msg(self, message):
         '''
         Generate the requested javascript object and publish it
@@ -63,7 +66,7 @@ class Generator():
             self.pub.send_multipart([key,output])
         except KeyError:
             return
-        
+
 def main():
     gen = Generator()
     ioloop.IOLoop.instance().start()
